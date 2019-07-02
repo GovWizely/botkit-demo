@@ -88,32 +88,32 @@ const api_key = "K2w8mVRAu1zSW2aJw6P_3GK1";
 /* The Query Dialog */
 let DIALOG_ID = 'my_dialog_1';
 let query_dialog = new BotkitConversation(DIALOG_ID, controller);
-let total = 0;
 
-query_dialog.ask('What search term would you like to search with?', async(queryTerm, query_dialog, bot) => {
+query_dialog.ask('What search term would you like to search with? <br> (Try "banks" or "export" for example)', async(queryTerm, query_dialog, bot) => {
 
     query_dialog.setVar('queryTerm', queryTerm);
 
     console.log(`user query is "${ queryTerm }".`);
     console.log(`fetching results from: ${endpoint}?api_key=${api_key}&q=${queryTerm}`);
 
-    fetch(`${endpoint}?api_key=${api_key}&q=${queryTerm}`)
+    return new Promise(function(resolve, reject) {
+        fetch(`${endpoint}?api_key=${api_key}&q=${queryTerm}`)
         .then((response) => response.json())
         .then((json) => {
             console.log(`~~total number of results: ${json.total}~~`);
             query_dialog.setVar('total', json.total);
-            // bot.say(`there were {{vars.total}} results`);
-            // bot.say(`there were ${total} results`); // this doesn't get called
-            total = json.total;
+            if (json.total > 0 ) {
+                query_dialog.setVar('topic1', json.results[0].topics[0]);
+            }
         })
-        // .then((json) => console.log(`~~total number of results: ${json.total}~~`)) // this shows: 2
-        // .then((json) => query_dialog.setVar('total', json.total), () => (bot.say(`there were {{vars.total}} results`))) // this doesn't run
-        .catch(error => console.log(error))
+        .then(resolve)
+        .catch(error => console.log(error)).then(reject)
+    })
 }, 'queryTerm');
 
-query_dialog.say(`user query is {{vars.queryTerm}}.`);
-query_dialog.say(`there were {{vars.total}} results`); // shows "" results
-// query_dialog.say(`there were ${total} results`); // 0
+query_dialog.say(`Please hold while I search with "{{vars.queryTerm}}"...`);
+query_dialog.say(`There were <b>{{vars.total}} results.</b> <br> The first topic is: {{vars.topic1}}`);
+query_dialog.say(`To search again, type "query"`); // [ToDo: display a button, perhaps]
 
 controller.addDialog(query_dialog);
 /* End Dialog */
