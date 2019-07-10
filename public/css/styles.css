@@ -127,13 +127,10 @@ a.button:hover {
 /* chat client */
 #message_window {
   background: #FFFFFF;
-  border-left: 1px solid #CCC;
-  border-right: 1px solid #CCC;
-  /*height: 500px;
-  width: 320px;*/
-  height: 100%;
-  width: 100%;
-  /*margin: 2rem auto;*/
+  border: 1px solid #CCC;
+  height: 500px;
+  width: 400px;
+  margin: 2rem auto;
   display: flex;
   flex-direction: column;
   font-family: "helvetica", sans-serif;
@@ -167,7 +164,7 @@ a.button:hover {
 }
 #message_window .powered_by a {
   text-decoration: none;
-  color: #666;
+  color: var(--theme-color);
 }
 #message_window .powered_by img {
   position: relative;
