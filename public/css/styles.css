@@ -1,4 +1,9 @@
 /* shared botkit ui styles */
+:root {
+  --theme-color: blue;
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -53,7 +58,7 @@ footer {
 }
 
 a {
-  color: #a795ef;
+  color: var(--theme-color);
 }
 
 .copyurl {
@@ -92,7 +97,7 @@ div.input label {
 }
 .addon button:hover {
   background: #FFF;
-  color: #a795ef;
+  color: var(--theme-color);
 }
 
 div.hr {
@@ -103,7 +108,7 @@ div.hr {
 }
 
 a.button {
-  border: 2px solid #a795ef;
+  border: 2px solid var(--theme-color);
   font-weight: bold;
   margin: 0;
   border-radius: 3px;
@@ -247,8 +252,8 @@ a.button:hover {
 }
 #message_window .message.outgoing {
   float: right;
-  background: #a795ef;
-  color: white;
+  background: #D7E1F5;
+  color: #333;
 }
 #message_window #message_replies {
   text-align: center;
@@ -270,15 +275,15 @@ a.button:hover {
 #message_window #message_replies a {
   text-decoration: none;
   display: block;
-  border: 1px solid #a795ef;
-  color: #a795ef;
+  border: 1px solid var(--theme-color);
+  color: var(--theme-color);
   border-radius: 16px;
   padding: 0.25rem 1rem;
   font-size: 14px;
   cursor: pointer;
 }
 #message_window #message_replies a:hover {
-  background: #a795ef;
+  background: var(--theme-color);
   color: #FFF;
 }
 
