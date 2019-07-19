@@ -1,6 +1,6 @@
 {
-  "name": "botkit-faq-botkit",
-  "version": "1.0.0",
+  "name": "faq-botkit",
+  "version": "0.1.0",
   "description": "",
   "main": "bot.js",
   "scripts": {

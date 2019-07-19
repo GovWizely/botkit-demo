@@ -65,13 +65,12 @@ const api_key = "K2w8mVRAu1zSW2aJw6P_3GK1";
 let DIALOG_ID = 'my_dialog_1';
 let query_dialog = new BotkitConversation(DIALOG_ID, controller);
 
-query_dialog.ask('What search term would you like to search with? <br> (Try "banks" or "export" for example)', async(queryTerm, query_dialog, bot) => {
+query_dialog.say(`Please hold while I search with: {{vars.word}}`);
 
-    query_dialog.setVar('queryTerm', queryTerm);
-    // console.log(`fetching results from: ${endpoint}?api_key=${api_key}&q=${queryTerm}`);
-    await bot.say(`Please hold while I search with "${queryTerm}"...`);
+// query_dialog.addAction('query_thread', async(query_dialog, bot) => {
+query_dialog.before('default', async(query_dialog, bot) => {
     return new Promise(function(resolve, reject) {
-        fetch(`${endpoint}?api_key=${api_key}&q=${queryTerm}`)
+        fetch(`${endpoint}?api_key=${api_key}&q=${query_dialog.vars.word}`)
         .then((response) => response.json())
         .then((json) => {
             // console.log(`~~total number of results: ${json.total}~~`);
@@ -83,21 +82,25 @@ query_dialog.ask('What search term would you like to search with? <br> (Try "ban
         })
         .then(resolve)
         .catch(error => console.log(error)).then(reject)
-    })
-}, 'queryTerm');
+    });
+});
 
-query_dialog.say(`There were <b>{{vars.total}} results</b> <ol>{{#vars.results}}<li><a href={{url}} target="_blank" rel="noopener" rel="noreferrer">{{question}}</a></li>{{/vars.results}}</ol>`)
-query_dialog.say(`To search again, type "search" or "query".`);
+query_dialog.say(`There were <b>{{vars.total}} results</b> <ol>{{#vars.results}}<li><a href={{url}} target="_blank" rel="noopener" rel="noreferrer">{{question}}</a></li>{{/vars.results}}</ol>`);
 
 controller.addDialog(query_dialog);
 /* End Dialog */
 
 /* Trigger the dialog the first time */
 controller.on(['hello', 'welcome_back', 'reconnect'], async(bot, message) => {
-    await bot.beginDialog(DIALOG_ID);
+    // await bot.beginDialog(DIALOG_ID, {word: 'banks'});
+    await bot.say('What search term would you like to search with? <br> (Try "banks" or "export" for example)');
+});
+
+controller.on('message', async(bot, message) => {
+    await bot.beginDialog(DIALOG_ID, {word: message.text});
 });
 
 /* Trigger the dialog again */
-controller.hears(['search', 'query'], 'message', async(bot, message) => {
-    await bot.beginDialog(DIALOG_ID);
-});
+// controller.hears(['search', 'query'], 'message', async(bot, message) => {
+//     await bot.beginDialog(DIALOG_ID, {word: message.text});
+// });
