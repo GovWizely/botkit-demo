@@ -1,17 +1,23 @@
 {
   "name": "faq-botkit",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GovWizely/botkit-demo.git"
+  },
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "botbuilder-adapter-web": "^1.0.3",
+    "botbuilder-adapter-web": "^1.0.4",
     "botbuilder-storage-mongodb": "^0.9.5",
-    "botkit": "^4.0.2",
-    "botkit-plugin-cms": "^1.0.1",
+    "botkit": "^4.5.0",
+    "botkit-middleware-witai": "git+https://github.com/ddhogan/botkit-middleware-witai.git",
+    "botkit-plugin-cms": "^1.0.2",
     "dotenv": "^8.0.0"
   }
 }
